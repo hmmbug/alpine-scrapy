@@ -3,7 +3,16 @@
 Python scrapy in an Alpine docker container Edit
 
 - Included libraries:
- - libxslt libxml2 jpeg tiff libpng zlib git curl libpq
+ - libxslt
+ - libxml2
+ - jpeg
+ - tiff
+ - libpng
+ - zlib
+ - git
+ - curl
+ - libpq
+
 - Included python libraries:
  - scrapy
  - scrapyd
