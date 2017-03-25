@@ -5,24 +5,30 @@ MAINTAINER mark <mark@markhollow.com>
 
 ENV LIBRARY_PATH=/lib:/usr/lib
 ENV RUNTIME_PACKAGES python py-pip libxslt libxml2 jpeg tiff libpng zlib git \
-  curl libpq
-ENV BUILD_PACKAGES build-base libxslt-dev libxml2-dev libffi-dev jpeg-dev \
-  tiff-dev libpng-dev zlib-dev python-dev openssl-dev postgresql-dev
+                     curl libpq
+ENV BUILD_PACKAGES   build-base libxslt-dev libxml2-dev libffi-dev jpeg-dev \
+                     tiff-dev libpng-dev zlib-dev python-dev openssl-dev postgresql-dev
+ENV PYTHON_PACKAGES  git+https://github.com/scrapy/scrapy.git \
+                     git+https://github.com/scrapy/scrapyd.git \
+                     git+https://github.com/scrapy/scrapyd-client.git \
+                     git+https://github.com/scrapinghub/scrapy-splash.git \
+                     https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.0.5.tar.gz \
+                     pyopenssl \
+                     ndg-httpsclient \
+                     pyasn1 \
+                     simplejson \
+                     elasticsearch elasticsearch_dsl \
+                     pillow \
+                     psycopg2 \
+                     sqlalchemy
 
 RUN apk add --no-cache ${RUNTIME_PACKAGES} ${BUILD_PACKAGES} && \
   pip install -U pip && \
-  pip install git+https://github.com/scrapy/scrapy.git \
-              git+https://github.com/scrapy/scrapyd.git \
-              git+https://github.com/scrapy/scrapyd-client.git \
-              git+https://github.com/scrapinghub/scrapy-splash.git \
-              https://dev.mysql.com/get/Downloads/Connector-Python/mysql-connector-python-2.0.5.tar.gz \
-              simplejson \
-              elasticsearch elasticsearch_dsl \
-              pillow \
-              psycopg2 && \
+  pip install ${PYTHON_PACKAGES} && \
   curl -sSL https://github.com/scrapy/scrapy/raw/master/extras/scrapy_bash_completion >> /root/.bashrc && \
   apk del ${BUILD_PACKAGES} && \
   rm -rf /root/.cache
+#apk cache clean && \
 
 ADD ./scrapyd.conf /etc/scrapyd/
 
