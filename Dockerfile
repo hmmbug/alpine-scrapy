@@ -22,13 +22,19 @@ ENV PYTHON_PACKAGES  git+https://github.com/scrapy/scrapy.git \
                      psycopg2 \
                      sqlalchemy
 
-RUN apk add --no-cache ${RUNTIME_PACKAGES} ${BUILD_PACKAGES} && \
+ENV SCRAPYD_DIRS     /etc/scrapyd \
+                     /var/log/scrapyd \
+                     /var/log/scrapyd/project \
+                     /var/lib/scrapyd
+
+RUN \
+  apk add --no-cache ${RUNTIME_PACKAGES} ${BUILD_PACKAGES} && \
   pip install -U pip && \
   pip install ${PYTHON_PACKAGES} && \
   curl -sSL https://github.com/scrapy/scrapy/raw/master/extras/scrapy_bash_completion >> /root/.bashrc && \
   apk del ${BUILD_PACKAGES} && \
-  rm -rf /root/.cache
-#apk cache clean && \
+  rm -rf /root/.cache && \
+  mkdir -p ${SCRAPYD_DIRS}
 
 ADD ./scrapyd.conf /etc/scrapyd/
 
