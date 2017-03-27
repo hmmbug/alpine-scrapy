@@ -20,6 +20,7 @@ ENV PYTHON_PACKAGES  git+https://github.com/scrapy/scrapy.git \
                      elasticsearch elasticsearch_dsl \
                      pillow \
                      psycopg2 \
+                     boto \
                      sqlalchemy
 
 ENV SCRAPYD_DIRS     /etc/scrapyd \
